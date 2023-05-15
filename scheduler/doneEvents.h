@@ -15,7 +15,6 @@ public:
 	doneEvents(Users*, set<Users>& users, QWidget* parent = nullptr);
 	void cancel_pressed(Users*, set<Users>&);
 	void done_event(Users*, set<Users>&);
-	//void change_time(int&, int&, int&);
 	queue<Events> done2;
 
 private:

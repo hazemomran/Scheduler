@@ -7,6 +7,7 @@ Events Events::updateEvent(string& name, string place, string description, int s
     this->start_date = start_date;
     this->end_date = end_date;
     this->reminder_time = reminder_time;
+    this->status = false;
 
     return event;
 }

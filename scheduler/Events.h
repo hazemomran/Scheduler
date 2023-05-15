@@ -15,7 +15,6 @@ public:
 	int remHr = 0;
 	int remMin = 0;
 	int index = 0;
-	//tm tmp_time;
 	bool status;
 
 public:

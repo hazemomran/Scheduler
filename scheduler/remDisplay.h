@@ -14,10 +14,8 @@
 class remDisplay : public QWidget
 {
 public:
-	//eventsPage();
 	remDisplay(Users*, set<Users>&, QWidget* parent = nullptr);
-	/*void add_pressed(Users&);
-	void done_pressed(Users&);*/
+
 
 
 private:
@@ -29,9 +27,6 @@ private:
 	QHBoxLayout* row5layout;
 	QLabel* title;
 
-
-	/*QPushButton* addEvent;
-	QPushButton* doneEvent;*/
 	QPushButton* modifyEvent;
 	QPushButton* back;
 	void back_pressed(Users*, set<Users>&);

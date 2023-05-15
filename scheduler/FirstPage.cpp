@@ -36,13 +36,7 @@ FirstPage::FirstPage(set<Users>& users, QWidget* parent) : QWidget(parent)
 
     mainLayout->addLayout(row1layout);
 
-    //row1layout->setSpacing(10);
-
-
-
-
-
-
+   
     row2layout = new QHBoxLayout();
 
     login_button = new QPushButton("LOGIN");
@@ -65,8 +59,6 @@ FirstPage::FirstPage(set<Users>& users, QWidget* parent) : QWidget(parent)
     mainLayout->addLayout(row2layout);
 
 
-
-    //connect(login_button, &QPushButton::clicked, this, &FirstPage::login_pressed);
     connect(login_button, &QPushButton::clicked, this, [this, &users]() {
         login_pressed(users);
         });

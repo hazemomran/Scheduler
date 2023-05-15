@@ -17,10 +17,8 @@ class signUp : public QWidget
 
 public:
     signUp(set<Users>&, QWidget* parent = nullptr);
-    //bool check_signup(set<Users>&, string name, string password);
 
 private:
-    //set<Users>& us;
     QVBoxLayout* mainLayout;
     QHBoxLayout* row1layout;
     QHBoxLayout* row2layout;
@@ -59,4 +57,4 @@ private:
 
 
 };
-#endif // WINDOW_H
+#endif

@@ -54,7 +54,7 @@ void fromFiles() {
                 int start, end, reminder;
                 bool st;
                 file >> plc >> start >> end >> reminder >> st >> nm >> desc;
-                obj[obj.size() - 1].dts[key] = Events(nm, plc, desc, start, end, reminder, st);
+                obj[obj.size() - 1].dateMp[key] = Events(nm, plc, desc, start, end, reminder, st);
                 obj[obj.size() - 1].reminderMp[reminder] = Events(nm, plc, desc, start, end, reminder, st);
                 cout << obj[obj.size() - 1].name;
             }
@@ -64,23 +64,7 @@ void fromFiles() {
     ofstream ofs("Users.txt", ofstream::trunc); //erase all
     ofs.close();
 
-    // storing all events
-    /*for (int i = 0; i < obj.size(); i++) {
-        obj[i].allEvents.insert(obj[i].dts.begin(), obj[i].dts.end());
-        obj[i].allEvents.insert(obj[i].done.front(), obj[i].done.back());*/
-        // iterate through the temporary queue
-        /*while (!tempQueue.empty()) {
-            Events value = tempQueue.front();
-            obj[i].allEvents[value.start_date] = value;
-            tempQueue.pop_back();
-        }*/
-        /*  for (int j = 0; j < obj[i].done.size(); j++) {
-
-              obj[i].done.push_front(obj[i].done.front());
-              obj[i].done.pop_back();
-
-          }*/
-          //}
+    
 
 }
 //////////////////////////////////////////////////////////////////////////
@@ -92,7 +76,7 @@ void toFiles(vector<Users>& objj) {
         {
             file2 << "Name: " << objj[i].name << "\n" << "Email: " << objj[i].email << "\n" << "Password: " << objj[i].pass << "\n";
             map<int, Events>::iterator it;
-            for (it = objj[i].dts.begin(); it != objj[i].dts.end(); it++)
+            for (it = objj[i].dateMp.begin(); it != objj[i].dateMp.end(); it++)
             {
                 file2 << "Key: " << it->first << " " << it->second.place << " " << it->second.start_date << " " << it->second.end_date << " " << it->second.reminder_time << " " << it->second.status << " " << it->second.name << " " << it->second.description << "\n";
             }
@@ -129,9 +113,6 @@ int main(int argc, char* argv[])
     first.show();
     int x;
 
-
-    Users u("janjon", "janjon@gmail.com", "1234");
-    users.insert(u);
     x = a.exec();
     vector<Users>v(users.begin(), users.end());
 

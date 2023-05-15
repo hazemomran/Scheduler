@@ -14,10 +14,7 @@
 class dateDisplay : public QWidget
 {
 public:
-	//eventsPage();
 	dateDisplay(Users*, set<Users>&, QWidget* parent = nullptr);
-	/*void add_pressed(Users&);
-	void done_pressed(Users&);*/
 
 
 private:
@@ -28,8 +25,6 @@ private:
 	QHBoxLayout* row4layout;
 
 	QLabel* title;
-	/*QPushButton* addEvent;
-	QPushButton* doneEvent;*/
 	QPushButton* modifyEvent;
 	QPushButton* deleteEvent;
 	QHBoxLayout* row5layout;

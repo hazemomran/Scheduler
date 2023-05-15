@@ -37,7 +37,6 @@ private:
 
     void login_pressed(set<Users>&);
     void cancel_pressed(set<Users>&);
-    //Users check_signIn(set<Users>&, string, string);
 };
 
-#endif // SIGNIN_H
+#endif

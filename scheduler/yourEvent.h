@@ -75,13 +75,8 @@ private:
     void cancel_pressed(Users*, set<Users>&);
     void stioToint(int&, int&, int&, int&, int&, int&, int&, int&, int&, int&);
     tm convertTStoDate(time_t);
-    // time_t convertRem(int, Users&, Events&);
-     //Date adjust_date(string s);
-  //Time adjust_time(string s);*/
-
-    // Time adjust_time(string s);
-    // int adjust_date(string s);*/
+    
 
 };
 
-#endif // YOUREVEN
+#endif

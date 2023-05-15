@@ -12,8 +12,7 @@
 #include "Users.h"
 
 #pragma once
-//#ifndef SIGNUP_H
-//#define SIGNUP_H
+
 class FirstPage : public QWidget
 {
 public:
@@ -32,4 +31,3 @@ private:
     void signUp_pressed(set<Users>&);
 
 };
-//#endif // WINDOW_H

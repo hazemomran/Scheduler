@@ -58,7 +58,7 @@ buttonsPage::buttonsPage(Users* user, set<Users>& users, QWidget* parent) : QWid
     addButton->setFixedHeight(75);
     addButton->setStyleSheet("font: bold 25px; color:black; background-color: #1e2835; color:white; border-radius:15px;");
     deleteButton = new QPushButton("Update/delete");
-    deleteButton->setFixedWidth(165);
+    deleteButton->setFixedWidth(175);
     deleteButton->setFixedHeight(75);
     deleteButton->setStyleSheet("font: bold 25px; color:black; background-color: #1e2835; color:white; border-radius:15px;");
     DoneButton = new QPushButton("Done events");
@@ -69,7 +69,6 @@ buttonsPage::buttonsPage(Users* user, set<Users>& users, QWidget* parent) : QWid
     row1layout->addWidget(addButton);
     row1layout->addWidget(deleteButton);
     row1layout->addWidget(DoneButton);
-    // row1layout->setAlignment(Qt::AlignTop);
     mainLayout->addLayout(row1layout);
     mainLayout->addStretch(2);
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,7 +77,6 @@ buttonsPage::buttonsPage(Users* user, set<Users>& users, QWidget* parent) : QWid
     display_label->setStyleSheet("font-weight: bold; font-size: 30px; color: #1e2835;");
     display_label->setFont(QFont("Georgia", 30));
     display_label->setAlignment(Qt::AlignCenter);
-    // title_label->setMargin(50);
     row3layout->addWidget(display_label);
     mainLayout->addLayout(row3layout);
     mainLayout->addStretch(1);
@@ -153,7 +151,6 @@ void buttonsPage::DisplayByRem_pressed(Users* user, set<Users>& users) {
 }
 
 void  buttonsPage::logout_pressed(set<Users>& users) {
-    //  logOutButton->setStyleSheet("font: bold 15px; color:red; background-color: red; color:white; border-radius:7px;"); 
     signIn* s5 = new signIn(users);
     s5->show();
     this->close();
@@ -180,16 +177,22 @@ void buttonsPage::addButton_pressed(Users* user, set<Users>& users) {
 
 
 }
+
+//Remind the user if there any event is about to start.
 void buttonsPage::remind(Users* user) {
     // Get the current system time
     auto currentTime = std::chrono::system_clock::now();
 
     // Convert the current time to a time_t object
     std::time_t time = std::chrono::system_clock::to_time_t(currentTime);
-    if (!user->dts.empty())
+
+
+    if (!user->dateMp.empty())
     {
-        if (user->dts.begin()->second.reminder_time <= time + 10800) {
-            QMessageBox::information(this, "Reminder", QString::fromStdString(user->dts.begin()->second.name) + " about to start!");
+        //Check if the current time passed reminder time
+        if (user->dateMp.begin()->second.reminder_time <= time + 10800 && !user->dateMp.begin()->second.status) {
+            user->dateMp.begin()->second.status = true;
+            QMessageBox::information(nullptr, "Reminder", QString::fromStdString(user->dateMp.begin()->second.name) + " about to start!");
         }
     }
 

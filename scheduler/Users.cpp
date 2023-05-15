@@ -20,10 +20,13 @@ void Users::setData(string name, string email, string password) {
 
 
 void Users::addEvent(Events& event) {
-	bool ch = check(dts, event.start_date, event.end_date);
+
+	// Check if there is a conflicts between the entered event and the existed events
+	bool ch = check(dateMp, event.start_date, event.end_date);
 
 	if (ch) {
-		dts[event.start_date] = event;
+		//add new event
+		dateMp[event.start_date] = event;
 		reminderMp[event.reminder_time] = event;
 	}
 	else {
@@ -35,8 +38,7 @@ void Users::addEvent(Events& event) {
 	}
 }
 
-// 1-2 2-4 4-6 7-9  6-8
-
+//Check if the start date and end date have any conflict with the dates already exist.
 bool Users::check(map<int, Events>mp, int start_date, int end_date) {
 
 	map<int, Events>::iterator it;
@@ -72,7 +74,8 @@ bool Users::check(map<int, Events>mp, int start_date, int end_date) {
 	}
 }
 
-int Users::convertDatetoTS(int year, int month, int day, int hour, int minute) //change
+//Convert date from integers (year, month, day, hour, minute) into time stamp.
+int Users::convertDatetoTS(int year, int month, int day, int hour, int minute)
 {
 	// Create a std::tm object with the specific date and time
 	tm timeInfo = { 0 };
@@ -87,15 +90,14 @@ int Users::convertDatetoTS(int year, int month, int day, int hour, int minute) /
 
 	// Convert the time_point object to a timestamp
 	time_t date = chrono::system_clock::to_time_t(timeStamp);
-	// Print the timestamp
-	cout << "date: " << date << endl;
 
 	return date;
 
 
 }
 
-int Users::reminderToTimestamp(/*int start_date,*/ int start_year, int start_month, int start_day, int start_hour, int start_minute, int start_reminder_mins, int start_reminder_hours, int start_reminder_day)
+//Convert reminder date into time stamp.
+int Users::reminderToTimestamp(int start_year, int start_month, int start_day, int start_hour, int start_minute, int start_reminder_mins, int start_reminder_hours, int start_reminder_day)
 {
 	tm reminder = { 0 };
 	reminder.tm_year = start_year - 1900;
@@ -114,86 +116,34 @@ int Users::reminderToTimestamp(/*int start_date,*/ int start_year, int start_mon
 
 }
 
+//Add new event
 void Users::add(string name, string place, string description, int start_year, int start_month, int start_day, int start_hour, int start_minute, int start_reminder_mins, int start_reminder_hours, int start_reminder_day, int end_year, int end_month, int end_day, int end_hour, int end_minute) {
 
-
+	//Convert startDate, endDate, reminder into time stamp
 	int startDate = convertDatetoTS(start_year, start_month, start_day, start_hour, start_minute);
 	int endDate = convertDatetoTS(end_year, end_month, end_day, end_hour, end_minute);
-	int remineder = reminderToTimestamp(/*startDate,*/ start_year, start_month, start_day, start_hour, start_minute, start_reminder_mins, start_reminder_hours, start_reminder_day); //error
+	int remineder = reminderToTimestamp(start_year, start_month, start_day, start_hour, start_minute, start_reminder_mins, start_reminder_hours, start_reminder_day);
 
+	//create new event
 	Events event(name, place, description, startDate, endDate, remineder, 0);
 	event.remDay = start_reminder_day;
 	event.remHr = start_reminder_hours;
 	event.remMin = start_reminder_mins;
+
+	//Add new event
 	addEvent(event);
 
 }
 
-bool Users::remind() {
-	// Get the current system time
-	auto currentTime = std::chrono::system_clock::now();
-
-	// Convert the current time to a time_t object
-	std::time_t time = std::chrono::system_clock::to_time_t(currentTime);
-
-	if (dts.begin()->first <= time) {
-		return true;
-	}
-	return false;
-}
-
-//void Users::done_event() {
-//
-//	map<int, Events>::iterator it;
-//	it = dts.begin();
-//
-//	auto currentTime = std::chrono::system_clock::now();
-//	std::time_t time = std::chrono::system_clock::to_time_t(currentTime);
-//
-//
-//	if (it->first <= time) {
-//		done.push_back(it->second);
-//		dts.erase(dts.find(it->first));
-//		reminderMp.erase(reminderMp.find(it->second.reminder_time));
-//		//cout << "first event doneeee!!!!";
-//	}
-//
-//}
-
 //delete event
 void Users::deleteEvent(Events& event) {
-	dts.erase(event.start_date);
+	dateMp.erase(event.start_date);
 	reminderMp.erase(event.reminder_time);
 
 }
 
-//update event
-//void Users::updateEvent(string eventName, Events event) {
-//
-//	map<string, Events> ::iterator it;
-//	it = nameMap.find(eventName);
-//	if (it == nameMap.end()) {
-//		invalid();
-//	}
-//	else {
-//		//GUIIIIIIIIIIIIIIIIII
-//	}
-//
-//}
 
-////display event
-//void Users::displayEvents() {
-//	map<int, Events> ::iterator it;
-//	//display when gui is finished
-//	for (it = dts.begin(); it != dts.end(); it++) {
-//		cout << it->second.name << it->second.place << it->second.reminder_time << it->second.status << it->second.start_date; //and each attribute
-//	}
-//}
-////invalid message 
-void Users::invalid() {
-	cout << "invalid!!!!!!"; // gui
-}
-
+//Convert time stamp into a normal date
 tm Users::convertTStoDate(time_t timestamp) {
 	// Convert the timestamp to a struct tm using gmtime
 	struct tm* timeinfo = gmtime(&timestamp);

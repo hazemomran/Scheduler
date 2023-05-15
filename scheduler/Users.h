@@ -13,11 +13,10 @@ public:
 	string name;
 	string email;
 	string pass;
-	map<int, Events>dts;
+	map<int, Events>dateMp;
 	map<int, Events>reminderMp;
 	map<int, Events> allEvents;
 	deque<Events>done;
-	/*static set<Users>users;*/
 	bool operator<(const Users& other) const {
 		return name < other.name;
 	}
@@ -29,14 +28,10 @@ public:
 	bool check(map<int, Events>, int, int);
 
 	void add(string, string, string, int, int, int, int, int, int, int, int, int, int, int, int, int);
-	int convertDatetoTS(int, int, int, int, int);//change
-	int reminderToTimestamp(/*int*/  int, int, int, int, int, int, int, int);
-	bool remind();
+	int convertDatetoTS(int, int, int, int, int);
+	int reminderToTimestamp(int, int, int, int, int, int, int, int);
 	void done_event();
 	void deleteEvent(Events& event);
-	//void updateEvent(string, Events);
-	//void displayEvents();
-	void invalid();
 	tm convertTStoDate(time_t);
 
 

@@ -10,7 +10,6 @@
 #include <string>
 #include "Users.h"
 
-//#include "yourEvent.cpp"
 class AddEvent : public QWidget
 {
 public:
@@ -54,7 +53,6 @@ private:
     QPushButton* cancel;
 
     void cancel_pressed(Users*, set<Users>&);
-    //int convertDateToint(string);
     void add_pressed(Users*, set<Users>&);
     int convertDateToint(string);
 

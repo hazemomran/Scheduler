@@ -74,29 +74,24 @@ signIn::signIn(set<Users>& users, QWidget* parent) : QWidget(parent)
     row3layout = new QHBoxLayout();
     login = new QPushButton("Login");
     login->setToolTip("Click to log in");
-    //login->setStyleSheet("background-color: #27a9e3; color: white");
+
     login->setStyleSheet("background-color: #1e2835; color: white; border: none; padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 15px;");
 
 
 
     cancel = new QPushButton("Cancel");
     cancel->setToolTip("Click to cancel");
-    //cancel->setStyleSheet("background-color: #27a9e3; color: white");
+
     cancel->setStyleSheet("background-color: #1e2835; color: white; border: none; padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 15px;");
 
     row3layout->addWidget(login);
     row3layout->addWidget(cancel);
-    //row3layout->addStretch();
+
 
     mainLayout->addLayout(row3layout);
     mainLayout->addStretch();
 
 
-
-
-
-    //connect(login, &QPushButton::clicked, this, &signIn::login_pressed);
-    //connect(cancel, &QPushButton::clicked, this, &signIn::cancel_pressed);
     connect(login, &QPushButton::clicked, this, [this, &users]() {
         login_pressed(users);
         });
@@ -113,26 +108,22 @@ void signIn::login_pressed(set<Users>& users)
     string username = username_box->text().toStdString();
     string password = password_box->text().toStdString();
 
+    //Search for a user with this username
     auto it = std::find_if(users.begin(), users.end(), [&username](const Users& user)
         {
             return user.name == username;
         });
 
-
+    //Check if the user exist and the password it correct
     if (it != users.end() && it->pass == password) {
-
-        Users* user;
-        user = const_cast<Users*>(&(*it));
-        /*
-             user->add("habiba", "aaaa", "john", 2025, 10, 24, 4, 15, 15,0, 0, 2026, 10, 24, 10, 14);
-             user->add("jehad", "bbbb", "jana", 2025, 10, 24, 4, 15, 15, 0, 0, 2026, 10, 24, 10, 14);*/
+        
         buttonsPage* ep = new buttonsPage(const_cast<Users*>(&(*it)), users);
         ep->show();
         this->close();
     }
-    //else {
-    //    throw std::runtime_error("User not found"); // user not found
-    //}
+    else {
+        QMessageBox::information(this, "Login Failed", "Username or password isn't correct."); // user not found
+    }
 
 }
 

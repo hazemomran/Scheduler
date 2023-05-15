@@ -12,9 +12,7 @@
 #include "eventsPage.h"
 #include "signUp.h"
 #include "buttonsPage.h"
-//#include "yourEvent.cpp"
 
-//janaaa karimmm can u seee mee
 AddEvent::AddEvent(Users* user, set<Users>& users, QWidget* parent) : QWidget(parent)
 {
     setWindowTitle("Add Event!");
@@ -196,7 +194,7 @@ AddEvent::AddEvent(Users* user, set<Users>& users, QWidget* parent) : QWidget(pa
     connect(add, &QPushButton::clicked, this, [this, user, &users]() {
         add_pressed(user, users);
         });
-    //connect(cancel, &QPushButton::clicked, this, &AddEvent::cancel_pressed);
+    
     connect(cancel, &QPushButton::clicked, this, [this, user, &users]() {
         cancel_pressed(user, users);
         });
@@ -252,7 +250,6 @@ Date adjust_date1(string s) {
                 // Check if all characters are digits
                 for (char c : first_num_str) {
                     if (!isdigit(c)) {
-                        //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
                         valid = false;
                         break;
                     }
@@ -260,7 +257,6 @@ Date adjust_date1(string s) {
                 // Check if all characters are digits
                 for (char c : second_num_str) {
                     if (!isdigit(c)) {
-                        //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
                         valid = false;
                         break;
                     }
@@ -268,7 +264,6 @@ Date adjust_date1(string s) {
                 // Check if all characters are digits
                 for (char c : third_num_str) {
                     if (!isdigit(c)) {
-                        //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
                         valid = false;
                         break;
                     }
@@ -279,10 +274,8 @@ Date adjust_date1(string s) {
                 date.year = stoi(third_num_str);
                 if (valid) return date;
             }
-            //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
         }
     }
-    //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
 }
 
 Time  adjust_time1(string s) {
@@ -298,14 +291,12 @@ Time  adjust_time1(string s) {
         for (char c : first_num_str) {
             if (!isdigit(c)) {
                 valid = false;
-                //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
                 break;
             }
         }
         for (char c : second_num_str) {
             if (!isdigit(c)) {
                 valid = false;
-                //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
                 break;
             }
         }
@@ -316,7 +307,6 @@ Time  adjust_time1(string s) {
             return result;
         }
     }
-    //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
 }
 
 
@@ -325,6 +315,14 @@ Time  adjust_time1(string s) {
 
 //
 void AddEvent::add_pressed(Users* user, set<Users>& users) {
+
+    //extracting data from input boxes
+    QString name_ = name_box->text();
+    string name = name_.toStdString();
+    QString place_ = place_box->text();
+    string place = place_.toStdString();
+    QString description_ = desc_box->text();
+    string description = description_.toStdString();
     QString startDate_ = start_box->toPlainText();
     string startDate = startDate_.toStdString();
     QString startTime_ = startTimeEdit->toPlainText();
@@ -333,13 +331,6 @@ void AddEvent::add_pressed(Users* user, set<Users>& users) {
     string endDate = endDate_.toStdString();
     QString endTime_ = endTimeEdit->toPlainText();
     string endTime = endTime_.toStdString();
-
-    Date SDate = adjust_date1(startDate);
-    Time STime = adjust_time1(startTime);
-    Date EDate = adjust_date1(endDate);
-    Time ETime = adjust_time1(endTime);
-
-
     QString remDay_ = remDay->toPlainText();
     int remDays = remDay_.toInt();
 
@@ -349,25 +340,22 @@ void AddEvent::add_pressed(Users* user, set<Users>& users) {
     QString remMin_ = remMin->toPlainText();
     int remMinutes = remMin_.toInt();
 
+    //Entering data into Date and Time structs
+    Date SDate = adjust_date1(startDate);
+    Time STime = adjust_time1(startTime);
+    Date EDate = adjust_date1(endDate);
+    Time ETime = adjust_time1(endTime);
 
+    //Converting reminder data into time stamp
     rem = user->reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, remMinutes, remHours, remDays);
 
-    QString name_ = name_box->text();
-    string name = name_.toStdString();
-    QString place_ = place_box->text();
-    string place = place_.toStdString();
-    QString description_ = desc_box->text();
-    string description = description_.toStdString();
+    
 
     int start_date = user->convertDatetoTS(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute);
     int end_date = user->convertDatetoTS(EDate.year, EDate.month, EDate.day, ETime.hour, ETime.minute);
 
-
+    //Add new event
     user->add(name, place, description, SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, remMinutes, remHours, remDays, EDate.year, EDate.month, EDate.day, ETime.hour, ETime.minute);
-
-
-    // user.reminderMp[start_date] = event;
-     //user.add(name, place, description, start_year, start_month, start_day, start_hour, start_min, end_year, end_month, end_day, end_hour, end_min, rem);
 
 
     buttonsPage* e1 = new buttonsPage(user, users);
@@ -382,24 +370,3 @@ void AddEvent::cancel_pressed(Users* user, set<Users>& users)
     ep->show();
     this->close();
 }
-// 2:30 30/1/2023
-
-//int AddEvent::convertDateToint(string date) {
-//    
-//    vector<int> substrings;
-//    string delimiter = " ";
-//
-//    size_t pos = 0;
-//    string token;
-//    while ((pos = start_date.find(delimiter)) != string::npos) {
-//        token = start_date.substr(0, pos);
-//        int num = stoi(token);
-//        substrings.push_back(num);
-//        start_date.erase(0, pos + delimiter.length());
-//    }
-//    //substrings.push_back(start_date);
-//
-//    for (auto s : substrings) {
-//        cout << s << endl;
-//    }
-//}

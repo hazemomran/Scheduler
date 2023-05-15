@@ -14,10 +14,7 @@
 class eventsPage : public QWidget
 {
 public:
-	//eventsPage();
 	eventsPage(Users*, set<Users>&, QWidget* parent = nullptr);
-	/*void add_pressed(Users&);
-	void done_pressed(Users&);*/
 	void onButtonClicked(Events&, Users*, set<Users>&);
 	void onButton2Clicked(Events&, Users*, set<Users>&);
 
@@ -29,8 +26,6 @@ private:
 	QHBoxLayout* row4layout;
 
 	QLabel* title;
-	/*QPushButton* addEvent;
-	QPushButton* doneEvent;*/
 	QPushButton* modifyEvent;
 	QPushButton* deleteEvent;
 	QHBoxLayout* row5layout;

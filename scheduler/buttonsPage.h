@@ -14,7 +14,7 @@ class buttonsPage : public QWidget
 
 public:
     buttonsPage(Users* user, set<Users>& users, QWidget* parent = nullptr);
-    //bool check_signup(set<Users>&, string name, string password);
+    static void remind(Users*);
 
 private:
     QVBoxLayout* mainLayout;
@@ -37,14 +37,11 @@ private:
 
     void addButton_pressed(Users*, set<Users>&);
     void deleteButton_pressed(Users*, set<Users>&);
-    // void DoneButton_pressed();
     void DisplayByDate_pressed(Users*, set<Users>&);
     void DisplayByRem_pressed(Users*, set<Users>&);
     void logout_pressed(set<Users>&);
-    // void done_event(Users& user);
     void donePressed(Users*, set<Users>&);
-    //void DisplayByRem_pressed();
-   // void logOut_pressed();*/
-    void remind(Users*);
+
+    
 
 };

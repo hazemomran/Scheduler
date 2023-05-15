@@ -9,10 +9,9 @@
 
 
 yourEvent::yourEvent(Users* user, Events& event, set<Users>& users, QWidget* parent) : QWidget(parent)
-{ // QFont font = nameEdit->font();
-   // font.setPointSize(10);
-    //nameEdit->setFont(font);
+{ 
 
+    buttonsPage::remind(user);
 
     setWindowTitle("Event name");
     setFixedSize(900, 550);
@@ -189,92 +188,6 @@ yourEvent::yourEvent(Users* user, Events& event, set<Users>& users, QWidget* par
 
 
 
-    /*QComboBox* reminderEdit = new QComboBox();
-    reminderEdit->setFixedSize(200, 40);
-    reminderEdit->addItem("  None");
-    reminderEdit->addItem("  At time of event");
-    reminderEdit->addItem("  5 minutes before");
-    reminderEdit->addItem("  10 minutes before");
-    reminderEdit->addItem("  15 minutes before");
-    reminderEdit->addItem("  1 hour before");
-    reminderEdit->addItem("  2 hours before");
-    reminderEdit->addItem("  1 day before");
-    reminderEdit->addItem("  2 days before");
-    reminderEdit->addItem("  1 week before");
-   */
-   // Set the current index of the combo box (optional)
-   // reminderEdit->setCurrentIndex(event.index);
- //convertRem(reminderEdit->currentIndex());
-
-
-   // Connect a slot to the combo box's activated signal (optional)
-   //connect(reminderEdit, QOverload<int>::of(&QComboBox::currentIndexChanged),
-   //    [=](int index) {
-   //        convertRem(index, user);
-   //         
-   //        //qDebug() << "Index changed to " << index;
-   //    });
-
-// index = reminderEdit->currentIndex();
-
-    //connect(reminderEdit, QOverload<int>::of(&QComboBox::currentIndexChanged), [=](int index, Users& user, Events&event) {
-    //    // Do something with the index parameter
-    //   // convertRem(index, &user, &event);
-
-    //    QString startDate_ = startDateEdit->toPlainText();
-    //    string startDate = startDate_.toStdString();
-    //    QString startTime_ = startTimeEdit->toPlainText();
-    //    string startTime = startTime_.toStdString();
-    //    QString endDate_ = endDateEdit->toPlainText();
-    //    string endDate = endDate_.toStdString();
-    //    QString endTime_ = endTimeEdit->toPlainText();
-    //    string endTime = endTime_.toStdString();
-
-    //    Date SDate = adjust_date(startDate);
-    //    Time STime = adjust_time(startTime);
-    //    Date EDate = adjust_date(endDate);
-    //    Time ETime = adjust_time(endTime);
-    //    
-    //    if (index == 1) {
-    //        rem = user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 0, 0, 0);
-    //    }
-    //    else if (index == 2) { //min hr day
-    //        rem = user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 5, 0, 0);
-    //    }
-    //    else if (index == 3) {
-    //        rem = user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 10, 0, 0);
-    //    }
-    //    else if (index == 4) {
-    //        rem = user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 15, 0, 0);
-    //    }
-    //    else if (index == 5) {
-    //        rem = user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 0, 1, 0);
-    //    }
-    //    else if (index == 6) {
-    //        rem = user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 0, 2, 0);
-    //    }
-    //    else if (index == 7) {
-    //        rem = user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 0, 0, 1);
-    //    }
-    //    else if (index == 8) {
-    //        rem = user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 0, 0, 2);
-    //    }
-    //    else if (index == 9) {
-    //        rem = user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 0, 0, 7);
-    //    }
-
-    //    event.index = index;
-
-    //    });
-
-
-
-
-
-   //connect(reminderEdit, QOverload<int>::of(&QComboBox::activated), [=](int index) {
-   //    QString selectedItem = reminderEdit->itemText(index);
-   //  //  QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
-
 
 
     description_label = new QLabel("Description:");
@@ -290,7 +203,6 @@ yourEvent::yourEvent(Users* user, Events& event, set<Users>& users, QWidget* par
 
     row3layout->addWidget(reminder_label);
     row3layout->addSpacing(10);
-    //  row3layout->addWidget(reminderEdit);
     row3layout->addWidget(remDay);
     row3layout->addSpacing(6);
     row3layout->addWidget(day_label);
@@ -330,7 +242,6 @@ yourEvent::yourEvent(Users* user, Events& event, set<Users>& users, QWidget* par
     connect(cancel, &QPushButton::clicked, this, [this, user, &users]() {
         cancel_pressed(user, users);
         });
-    //connect(submit, &QPushButton::clicked, this, &yourEvent::submit_pressed);
     connect(submit, &QPushButton::clicked, this, [this, &event, user, &users]() {
         submit_pressed(user, event, users);
         });
@@ -347,6 +258,7 @@ struct Time {
     int minute;
 };
 
+//adjust the date extracted from input box which is a string into struct Date that cries integers
 Date adjust_date(string s) {
     int pos = s.find('/');
     Date date;
@@ -361,7 +273,6 @@ Date adjust_date(string s) {
         // Check if all characters are digits
         for (char c : first_num_str) {
             if (!isdigit(c)) {
-                //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
                 break;
             }
         }
@@ -385,7 +296,6 @@ Date adjust_date(string s) {
                 // Check if all characters are digits
                 for (char c : first_num_str) {
                     if (!isdigit(c)) {
-                        //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
                         valid = false;
                         break;
                     }
@@ -393,7 +303,6 @@ Date adjust_date(string s) {
                 // Check if all characters are digits
                 for (char c : second_num_str) {
                     if (!isdigit(c)) {
-                        //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
                         valid = false;
                         break;
                     }
@@ -401,7 +310,6 @@ Date adjust_date(string s) {
                 // Check if all characters are digits
                 for (char c : third_num_str) {
                     if (!isdigit(c)) {
-                        //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
                         valid = false;
                         break;
                     }
@@ -412,14 +320,13 @@ Date adjust_date(string s) {
                 date.year = stoi(third_num_str);
                 if (valid) return date;
             }
-            //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
         }
     }
 
-    //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
     return date;
 }
 
+//adjust the time extracted from input box which is a string into struct Time that cries integers
 Time  adjust_time(string s) {
     Time result = { 0, 0 };
     int pos = s.find(':');
@@ -433,14 +340,12 @@ Time  adjust_time(string s) {
         for (char c : first_num_str) {
             if (!isdigit(c)) {
                 valid = false;
-                //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
                 break;
             }
         }
         for (char c : second_num_str) {
             if (!isdigit(c)) {
                 valid = false;
-                //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
                 break;
             }
         }
@@ -451,12 +356,18 @@ Time  adjust_time(string s) {
             return result;
         }
     }
-    //QMessageBox::information(this, "Selected Item", "You selected: " + selectedItem);
 }
+
 
 void yourEvent::submit_pressed(Users* user, Events& event, set<Users>& users)
 {
-    //stioToint(start_min, start_hour, start_day, start_month, start_year, end_min, end_hour, end_day, end_month, end_year);
+    //extracting data from input boxes
+    QString name_ = nameEdit->toPlainText();
+    string name = name_.toStdString();
+    QString place_ = placeEdit->toPlainText();
+    string place = place_.toStdString();
+    QString description_ = descriptionEdit->toPlainText();
+    string description = description_.toStdString();
     QString startDate_ = startDateEdit->toPlainText();
     string startDate = startDate_.toStdString();
     QString startTime_ = startTimeEdit->toPlainText();
@@ -465,12 +376,6 @@ void yourEvent::submit_pressed(Users* user, Events& event, set<Users>& users)
     string endDate = endDate_.toStdString();
     QString endTime_ = endTimeEdit->toPlainText();
     string endTime = endTime_.toStdString();
-
-    Date SDate = adjust_date(startDate);
-    Time STime = adjust_time(startTime);
-    Date EDate = adjust_date(endDate);
-    Time ETime = adjust_time(endTime);
-
 
     QString remDay_ = remDay->toPlainText();
     int remDays = remDay_.toInt();
@@ -484,38 +389,31 @@ void yourEvent::submit_pressed(Users* user, Events& event, set<Users>& users)
     event.remHr = remHours;
     event.remMin = remMinutes;
 
+    //Entering data into Date and Time structs
+    Date SDate = adjust_date(startDate);
+    Time STime = adjust_time(startTime);
+    Date EDate = adjust_date(endDate);
+    Time ETime = adjust_time(endTime);
 
-
+    //Converting reminder data into time stamp
     rem = user->reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, remMinutes, remHours, remDays);
 
-    QString name_ = nameEdit->toPlainText();
-    string name = name_.toStdString();
-    QString place_ = placeEdit->toPlainText();
-    string place = place_.toStdString();
-    QString description_ = descriptionEdit->toPlainText();
-    string description = description_.toStdString();
-    int r = event.reminder_time;
-    user->dts.erase(event.start_date);
+    
+    
 
     int start_date = user->convertDatetoTS(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute);
     int end_date = user->convertDatetoTS(EDate.year, EDate.month, EDate.day, ETime.hour, ETime.minute);
+
+    //Create new event
     Events e1(name, place, description, start_date, end_date, rem, 0);
 
-    user->reminderMp.erase(r);
-    // event =  event.updateEvent(name, place, description, start_date, end_date, rem, event);
-    user->dts[start_date] = e1;
+    //remove old event from the maps
+    user->reminderMp.erase(event.reminder_time);
+    user->dateMp.erase(event.start_date);
+
+    //Add new event to the map
+    user->dateMp[start_date] = e1;
     user->reminderMp[rem] = e1;
-
-
-
-
-    //event = event.updateEvent(name, place, description, start_date, end_date, event.reminder_time, event);
-    /*user.dts[start_date] = e1;
-    user.reminderMp[event.reminder_time] = e1;*/
-
-
-    // user.reminderMp[start_date] = event;
-     //user.add(name, place, description, start_year, start_month, start_day, start_hour, start_min, end_year, end_month, end_day, end_hour, end_min, rem);
 
 
     buttonsPage* e2 = new buttonsPage(user, users);
@@ -523,105 +421,7 @@ void yourEvent::submit_pressed(Users* user, Events& event, set<Users>& users)
     this->close();
 }
 
-
-
-void yourEvent::stioToint(int& start_min, int& start_hour, int& start_day, int& start_month, int& start_year, int& end_min, int& end_hour, int& end_day, int& end_month, int& end_year) {
-
-    QString startDate_ = startDateEdit->toPlainText();
-    string startDate = startDate_.toStdString();
-    QString startTime_ = startTimeEdit->toPlainText();
-    string startTime = startTime_.toStdString();
-    QString endDate_ = endDateEdit->toPlainText();
-    string endDate = endDate_.toStdString();
-    QString endTime_ = endTimeEdit->toPlainText();
-    string endTime = endTime_.toStdString();
-
-
-    int start_date = 2362022;//adjust_date(startDate);
-    int start_time = 0530;//adjust_time(startTime);
-    int end_date = 2572022;//adjust_date(endDate);
-    int end_time = 0630;//adjust_time(endTime);
-
-    start_min = start_time % 100;
-    start_time /= 100;
-    start_hour = start_time;
-
-    end_min = end_time % 100;
-    end_time /= 100;
-    end_hour = end_time;
-
-    start_year = start_date % 10000;
-    start_date /= 10000;
-    start_month = start_date % 100;
-    start_date /= 100;
-    start_day = start_date;
-
-    end_year = end_date % 10000;
-    end_date /= 10000;
-    end_month = end_date % 100;
-    end_date /= 100;
-    end_day = end_date;
-
-
-}
 ///////////////////////////////////////////////////////////////
-
-
-//
-//
-//time_t yourEvent :: convertRem(int i, Users& user, Events& event) {
-//
-//   
-//
-//    QString startDate_ = startDateEdit->toPlainText();
-//    string startDate = startDate_.toStdString();
-//    QString startTime_ = startTimeEdit->toPlainText();
-//    string startTime = startTime_.toStdString();
-//    QString endDate_ = endDateEdit->toPlainText();
-//    string endDate = endDate_.toStdString();
-//    QString endTime_ = endTimeEdit->toPlainText();
-//    string endTime = endTime_.toStdString();
-//
-//    Date SDate = adjust_date(startDate);
-//    Time STime = adjust_time(startTime);
-//    Date EDate = adjust_date(endDate);
-//    Time ETime = adjust_time(endTime);
-//   time_t r;
-//    if (i == 1) {
-//       r = user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 0, 0, 0);
-//    }
-//    else if (i == 2) { //min hr day
-//       r = user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 5, 0, 0);
-//    }
-//    else if (i == 3) {
-//      r =  user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 10, 0, 0);
-//    }
-//    else if (i == 4) {
-//      r =  user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 15, 0, 0);
-//    }
-//    else if (i == 5) {
-//      r =  user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 0, 1, 0);
-//    }
-//    else if (i == 6) {
-//       r =  user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 0, 2, 0);
-//    }
-//    else if (i == 7) {
-//       r =  user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 0, 0, 1);
-//    }
-//    else if (i == 8) {
-//      r =   user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 0, 0, 2);
-//    }
-//    else if (i == 9) {
-//       r = user.reminderToTimestamp(SDate.year, SDate.month, SDate.day, STime.hour, STime.minute, 0, 0, 7);
-//    }
-//
-//    return r;
-//
-//}
-
-
-
-
 
 
 void yourEvent::cancel_pressed(Users* user, set<Users>& users)
@@ -630,6 +430,7 @@ void yourEvent::cancel_pressed(Users* user, set<Users>& users)
     this->close();
 }
 
+//Convert time stamp into a normal date
 tm yourEvent::convertTStoDate(time_t timestamp) {
     // Convert the timestamp to a struct tm using gmtime
     struct tm* timeinfo = gmtime(&timestamp);

@@ -42,19 +42,18 @@ doneEvents::doneEvents(Users* user, set<Users>& users, QWidget* parent) : QWidge
 	row1layout->addWidget(title);
 	mainLayout->addLayout(row1layout);
 	done_event(user, users);
+
+	
+	buttonsPage::remind(user);
+
 	if (!user->done.empty()) {
 
 		QTableWidget* tableWidget = new QTableWidget(this);
 		tableWidget->setRowCount(user->done.size());
-		tableWidget->setColumnCount(4);
-		tableWidget->setHorizontalHeaderLabels(QStringList() << "Name" << "Place" << "Start Date" << "End Date" << " ");
+		tableWidget->setColumnCount(5);
+		tableWidget->setHorizontalHeaderLabels(QStringList() << "Name" << "Place" << "Start Date" << "End Date" << "Description");
 		tableWidget->setColumnWidth(0, 200);
-		//tableWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-		//tableWidget->setHorizontalHeaderLabels();
-		// Set the size of the table widget to fit the contents
-		//ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-		// Iterate over the map and insert the data into the table
-
+		
 
 
 		int row = 0;
@@ -77,11 +76,13 @@ doneEvents::doneEvents(Users* user, set<Users>& users, QWidget* parent) : QWidge
 			QTableWidgetItem* Item2 = new QTableWidgetItem(QString::fromStdString(user->done.front().place));
 			QTableWidgetItem* Item3 = new QTableWidgetItem(QString::fromStdString(startDate));
 			QTableWidgetItem* Item4 = new QTableWidgetItem(QString::fromStdString(endDate));
+			QTableWidgetItem* Item5 = new QTableWidgetItem(QString::fromStdString(user->done.front().description));
 
 			tableWidget->setItem(row, 0, Item1);
 			tableWidget->setItem(row, 1, Item2);
 			tableWidget->setItem(row, 2, Item3);
 			tableWidget->setItem(row, 3, Item4);
+			tableWidget->setItem(row, 4, Item5);
 
 			Item1->setSizeHint(QSize(190, 50));
 			Item2->setSizeHint(QSize(190, 50));
@@ -117,10 +118,8 @@ doneEvents::doneEvents(Users* user, set<Users>& users, QWidget* parent) : QWidge
 	Back->setStyleSheet("font: bold 15px; color:black; background-color: #1e2835; color:white; border-radius:7px;");
 	row3layout = new QHBoxLayout();
 	row3layout->addWidget(Back);
-	//row3layout->addStretch(1);
 	mainLayout->addLayout(row3layout);
 
-	//connect(addEvent, &QPushButton::clicked, this, &eventsPage::add_pressed);
 	connect(Back, &QPushButton::clicked, this, [this, user, &users]() {
 		cancel_pressed(user, users);
 		});
@@ -139,31 +138,30 @@ void doneEvents::done_event(Users* user, set<Users>& users) {
 
 	map<int, Events>::iterator it;
 
-	it = user->dts.begin();
+	it = user->dateMp.begin();
 
+	//Get current time as time stamp
 	auto currentTime = std::chrono::system_clock::now();
 	std::time_t time = std::chrono::system_clock::to_time_t(currentTime);
 
-	for (it = user->dts.begin(); it != user->dts.end();) {
+	//Iterate throw dateMp and remove done events
+	for (it = user->dateMp.begin(); it != user->dateMp.end();) {
 		if (it->first <= time + 10800) {
 			user->done.push_back(it->second);
-			it = user->dts.erase(it);
-			//user.reminderMp.erase(user.dts[it->first].reminder_time);
-			  //cout << "first event doneeee!!!!";
+			it = user->dateMp.erase(it);
 		}
 		else {
 			++it;
 		}
 	}
 
+	//Iterate throw reminderMp and remove done events
 	map<int, Events> ::iterator it2;
 	it2 = user->reminderMp.begin();
 	for (it2 = user->reminderMp.begin(); it2 != user->reminderMp.end();) {
-		if (it2->second.start_date <= time) {
-			//user.done.push_back(it2->second);
+		if (it2->second.start_date <= time + 10800) {
 			it2 = user->reminderMp.erase(it2);
-			//user.reminderMp.erase(user.dts[it->first].reminder_time);
-			  //cout << "first event doneeee!!!!";
+			
 		}
 		else {
 			++it2;
